@@ -12,7 +12,7 @@ const VideoCard = ({ video }) => {
   return (
     <Card style={{display: "flex", justifyContent: "space-between", flexDirection: "column", width: "20rem", overflow: "hidden"}} onClick={handleClick}>
       <div>
-      <CardMedia component="img" height="140" image={video.thumbnail} alt={video.title} />
+      <CardMedia component="img" height="140" image={video.primaryThumbnail} alt={video.title} />
       <CardContent>
         <Typography variant="h5">{video.title}</Typography>
         <Typography variant="body2" color="textSecondary">

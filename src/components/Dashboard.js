@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import VideoCard from './VideoCard';
 import styled from 'styled-components';
-import { fetchVideos } from '../data'; // Assuming you have a function to fetch videos
-
+import { fetchVideos } from '../data';
 const drawerWidth = 240;
 
 const DashboardContainer = styled.div`
@@ -20,7 +19,7 @@ const Dashboard = ({ open }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedVideos = await fetchVideos(); // Assuming fetchVideos fetches data from Firebase
+        const fetchedVideos = await fetchVideos(); 
         setVideos(fetchedVideos);
       } catch (error) {
         console.error('Error fetching videos:', error);
@@ -28,7 +27,7 @@ const Dashboard = ({ open }) => {
     };
 
     fetchData();
-  }, []); // Empty dependency array means this effect runs once when component mounts
+  }, []); 
 
   return (
     <DashboardContainer open={open}>

@@ -1,9 +1,9 @@
-import { Modal, Box, TextField, Button, Typography, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import { Modal, Box, TextField, Button, Typography, IconButton, Select, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import styled from 'styled-components';
 import { collection, addDoc } from 'firebase/firestore'; // Import Firestore functions
 import { db } from '../firebase'; // Assuming you have configured Firebase and exported db
-import { useState } from 'react';
 
 const style = {
   position: 'absolute',
@@ -31,7 +31,8 @@ const Header = styled.div`
 const UploadModal = ({ open, handleClose }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [thumbnail, setThumbnail] = useState('');
+  const [primaryThumbnail, setPrimaryThumbnail] = useState('');
+  const [secondaryThumbnail, setSecondaryThumbnail] = useState('');
   const [price, setPrice] = useState('');
   const [label, setLabel] = useState('');
   const [videoFile, setVideoFile] = useState(null);
@@ -51,7 +52,8 @@ const UploadModal = ({ open, handleClose }) => {
       const docRef = await addDoc(collection(db, 'videos'), {
         title,
         description,
-        thumbnail,
+        primaryThumbnail,
+        secondaryThumbnail,
         price: parseFloat(price), // Convert price to number (if necessary)
         label,
         // Add more fields as needed
@@ -79,9 +81,26 @@ const UploadModal = ({ open, handleClose }) => {
         <Form onSubmit={handleSubmit}>
           <TextField label="Title" fullWidth value={title} onChange={(e) => setTitle(e.target.value)} required />
           <TextField label="Description" fullWidth value={description} onChange={(e) => setDescription(e.target.value)} required />
-          <TextField label="Thumbnail URL" fullWidth value={thumbnail} onChange={(e) => setThumbnail(e.target.value)} required />
+          <TextField label="Primary Thumbnail URL" fullWidth value={primaryThumbnail} onChange={(e) => setPrimaryThumbnail(e.target.value)} required />
+          <TextField label="Secondary Thumbnail URL" fullWidth value={secondaryThumbnail} onChange={(e) => setSecondaryThumbnail(e.target.value)} />
           <TextField label="Rent Price" type="number" fullWidth value={price} onChange={(e) => setPrice(e.target.value)} required />
-          <TextField label="Label" fullWidth value={label} onChange={(e) => setLabel(e.target.value)} required />
+          <Select
+            value={label}
+            onChange={(e) => setLabel(e.target.value)}
+            fullWidth
+            required
+            displayEmpty
+            inputProps={{ 'aria-label': 'Label' }}
+          >
+            <MenuItem value="" disabled>
+              Select Label
+            </MenuItem>
+            <MenuItem value="Movie">Movie</MenuItem>
+            <MenuItem value="TV Show">TV Show</MenuItem>
+            <MenuItem value="Entertainment">Entertainment</MenuItem>
+            <MenuItem value="Anime">Anime</MenuItem>
+            <MenuItem value="Kids">Kids</MenuItem>
+          </Select>
           <input type="file" accept="video/*" onChange={handleFileChange} />
           <Button type="submit" variant="contained" color="primary">
             Upload
